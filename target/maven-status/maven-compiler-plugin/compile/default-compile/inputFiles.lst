@@ -1,0 +1,11 @@
+/home/jay/Documents/api/src/main/java/com/jay/api/entity/Laptop.java
+/home/jay/Documents/api/src/main/java/com/jay/api/exception/CustomizedException.java
+/home/jay/Documents/api/src/main/java/com/jay/api/ApiApplication.java
+/home/jay/Documents/api/src/main/java/com/jay/api/controller/StudentController.java
+/home/jay/Documents/api/src/main/java/com/jay/api/entity/User.java
+/home/jay/Documents/api/src/main/java/com/jay/api/entity/Student.java
+/home/jay/Documents/api/src/main/java/com/jay/api/repository/StudentRepository.java
+/home/jay/Documents/api/src/main/java/com/jay/api/controller/UserController.java
+/home/jay/Documents/api/src/main/java/com/jay/api/repository/UserRepository.java
+/home/jay/Documents/api/src/main/java/com/jay/api/service/StudentService.java
+/home/jay/Documents/api/src/main/java/com/jay/api/service/UserService.java

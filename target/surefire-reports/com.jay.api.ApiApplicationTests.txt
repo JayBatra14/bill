@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.jay.api.ApiApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.808 s - in com.jay.api.ApiApplicationTests
