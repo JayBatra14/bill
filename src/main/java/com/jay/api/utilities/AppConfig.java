@@ -34,6 +34,10 @@ public class AppConfig {
         return environment.getProperty("mobileNumber");
     }
     @Bean
+    public String upiId() {
+        return environment.getProperty("upiId");
+    }
+    @Bean
     public String email() {
         return environment.getProperty("email");
     }

@@ -1,0 +1,29 @@
+version: "3"
+services:
+  bill-app:
+    build: .
+    image: bill
+    restart: on-failure
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./paid:/app/paid
+      - ./unpaid:/app/unpaid
+    networks:
+      - bill-mysql
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    networks:
+      - bill-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bills
+    ports:
+      - "3306:3306"
+
+networks:
+  bill-mysql:

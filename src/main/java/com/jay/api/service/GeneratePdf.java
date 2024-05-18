@@ -31,6 +31,8 @@ public class GeneratePdf{
     private String state;
     @Value("${mobileNumber}")
     private String mobileNumber;
+    @Value("${upiId}")
+    private String upiId;
     @Value("${email}")
     private String email;
     @Value("${bankName}")
@@ -111,6 +113,7 @@ public class GeneratePdf{
             fileWriter.write("<link href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css\" rel=\"stylesheet\"/>");
             fileWriter.write("<style type=\"text/css\">body{margin-top:20px;background:#eee;}.invoice .top-left {font-size:65px;color:#3ba0ff;}.invoice .top-right {text-align:right;padding-right:20px;}.invoice .table-row {margin-left:-15px;margin-right:-15px;margin-top:25px;}.invoice .payment-info {font-weight:500;}.invoice .table-row .table>thead {border-top:1px solid #ddd;}.invoice .table-row .table>thead>tr>th {border-bottom:none;}.invoice .table>tbody>tr>td {padding:8px 20px;}.invoice .invoice-total {margin-right:-10px;font-size:16px;}.invoice .last-row {border-bottom:1px solid #ddd;}.invoice-ribbon {width:85px;height:88px;overflow:hidden;position:absolute;top:-1px;right:14px;}.ribbon-inner {text-align:center;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);position:relative;padding:7px 0;left:-5px;top:11px;width:120px;background-color:#66c591;font-size:15px;color:#fff;}.ribbon-inner:before,.ribbon-inner:after {content:\"\";position:absolute;}.ribbon-inner:before {left:0;}.ribbon-inner:after {right:0;}@media(max-width:575px) {.invoice .top-left,.invoice .top-right,.invoice .payment-details {text-align:center;}.invoice .from,.invoice .to,.invoice .payment-details {float:none;width:100%;text-align:center;margin-bottom:25px;}.invoice p.lead,.invoice .from p.lead,.invoice .to p.lead,.invoice .payment-details p.lead {font-size:22px;}.invoice .btn {margin-top:10px;}}@media print {.invoice {width:900px;height:800px;}}</style>");
             fileWriter.write("</head><body>");
+            fileWriter.write("<script src=\"https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.js\"></script>");
             fileWriter.write("<div class=\"container bootstrap snippets bootdeys\">");
             fileWriter.write("<div class=\"row\">");
             fileWriter.write("<div class=\"col-sm-12\">");
@@ -169,8 +172,9 @@ public class GeneratePdf{
             float roundedTotal = Float.parseFloat(decimalFormat.format(total));
             String amountInWords = NumberToWords.convertNumberToWords(String.valueOf(roundedTotal));
             fileWriter.write("</tbody></table></div>");
-            fileWriter.write("<div class=\"row\"><div class=\"col-xs-8 margintop\"><p class=\"lead marginbottom text-center\">Invoice Amount In Words : "+amountInWords+"</p><p class=\"lead marginbottom text-center\">THANK YOU FOR YOUR BUSINESS!</p></div>");
-            fileWriter.write("<div class=\"col-xs-4 text-right pull-right invoice-total\">");
+            fileWriter.write("<div class=\"row\"><div class=\"col-xs-7 margintop\"><p class=\"lead marginbottom\">Invoice Amount In Words : "+amountInWords+"</p><p class=\"lead marginbottom\">THANK YOU FOR YOUR BUSINESS!</p><p class=\"lead marginbottom\">For, PRABHULAL CHUNNILAL JAIN</p><input class=\"form-control\" style=\"height: 80px; width: 300px;\" type=\"text\" /><div class=\"container ms-5\"><div class=\"row\"><hr style=\"border-width: 3px; width: 26%; float: left;\" /></div><div class=\"lead marginbottom\"><b>Authorized Signatory</b></div></div></div>");
+            fileWriter.write("<div class=\"col-xs-2\"><canvas id=\"canvas\"></canvas><img width=\"200\" height=\"150\" src=\"../upi.png\" alt=\"Upi\" /></div>");
+            fileWriter.write("<div class=\"col-xs-3 text-right pull-right invoice-total\">");
             fileWriter.write("<p><b>Subtotal :</b> ₹"+roundedSubtotal+"</p>");
 
             for (Map. Entry<Float, Float> entry: gstMap.entrySet()){
@@ -194,6 +198,14 @@ public class GeneratePdf{
 
             fileWriter.write("<p><b>Total :</b> ₹"+roundedTotal+"</p>");
             fileWriter.write("</div></div></div></div></div></div></div>");
+            fileWriter.write("<script type=\"text/javascript\">");
+            fileWriter.write("function generateQRCode(){");
+            fileWriter.write("var upiId = '"+upiId+"'\n");
+            fileWriter.write("var amount = "+roundedTotal+"\n");
+            fileWriter.write("var qrString = 'upi://pay?pa=' + upiId + '&pn=PRABHULAL CHUNNILAL JAIN&am=' + amount;\n");
+            fileWriter.write("QRCode.toCanvas(document.getElementById('canvas'), qrString, function (error) {\n if (error) console.error(error)})\n}");
+            fileWriter.write("generateQRCode()");
+            fileWriter.write("</script>");
             fileWriter.write("<script type=\"text/javascript\">");
             fileWriter.write("function printPage(){");
             fileWriter.write("window.open('', '_blank');");
